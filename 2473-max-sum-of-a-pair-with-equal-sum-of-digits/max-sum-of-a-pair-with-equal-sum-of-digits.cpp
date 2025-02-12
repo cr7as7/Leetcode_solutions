@@ -9,15 +9,15 @@ public:
         return sum;
     }
     int maximumSum(vector<int>& nums) {
-        unordered_map<int,int> mp;
+        unordered_map<int, int> mp;
         int maxi = -1;
         for (auto i : nums) {
             int digitSum = DSUM(i);
             if (mp.count(digitSum) != 0) {
-                    maxi = max(maxi, i + mp[digitSum]); 
+                maxi = max(maxi, i + mp[digitSum]);
             }
-            if(mp[digitSum] < i)
-            mp[digitSum]=i;
+            if (mp[digitSum] < i)
+                mp[digitSum] = i;
         }
         return maxi;
     }
