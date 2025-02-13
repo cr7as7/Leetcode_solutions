@@ -7,7 +7,7 @@ public:
             minH.push(i);
         }
         int mini = 0;
-        while (minH.empty() || minH.top() < k) {
+        while (minH.size() > 1 && minH.top() < k) {
             ll x = minH.top();
             minH.pop();
             ll y = minH.top();
@@ -15,6 +15,6 @@ public:
             minH.push(min(x, y) * 2 + max(x, y));
             mini++;
         }
-        return mini;
+        return (minH.top() >= k) ? mini : -1;
     }
 };
