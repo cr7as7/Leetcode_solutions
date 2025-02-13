@@ -10,7 +10,7 @@ public:
             minH.pop();
             ll y = minH.top();
             minH.pop();
-            minH.push(min(x, y) * 2 + max(x, y));
+            minH.push(x * 2 + y);
             mini++;
         }
         return (minH.top() >= k) ? mini : -1;
