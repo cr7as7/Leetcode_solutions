@@ -2,10 +2,8 @@ class Solution {
 public:
     typedef long long ll;
     int minOperations(vector<int>& nums, int k) {
-        priority_queue<ll, vector<ll>, greater<ll>> minH;
-        for (auto i : nums) {
-            minH.push(i);
-        }
+        priority_queue<ll, vector<ll>, greater<ll>> minH(begin(nums),end(nums));
+        
         int mini = 0;
         while (minH.size() > 1 && minH.top() < k) {
             ll x = minH.top();
