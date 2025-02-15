@@ -7,6 +7,7 @@ public: // sq,idx,sum
             return mp[i][currsum] = true;
         else if (i == n)
             return mp[i][currsum] = false;
+        if(currsum > num) return mp[i][currsum] = false;
         if (mp[i].count(currsum))
             return mp[i][currsum];
         for (int j = i; j < n; j++) {
