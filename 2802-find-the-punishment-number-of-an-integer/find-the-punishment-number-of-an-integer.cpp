@@ -1,30 +1,33 @@
 class Solution {
 public: // sq,idx,sum
-    unordered_map<int, unordered_map<int, bool>> mp;
-    bool check(string& sq, int num, int i, int currsum) {
+    bool check(string& sq, int num, int i, int currsum,
+               vector<vector<int>>& t) {
+        if (currsum > num)
+            return false;
         int n = sq.size();
-        if (i == n && currsum == num)
-            return mp[i][currsum] = true;
+        if (i == n)
+            return currsum == num;
         else if (i == n)
-            return mp[i][currsum] = false;
-        if(currsum > num) return mp[i][currsum] = false;
-        if (mp[i].count(currsum))
-            return mp[i][currsum];
+            return t[i][currsum] = false;
+
+        if (t[i][currsum] != -1)
+            return t[i][currsum];
         for (int j = i; j < n; j++) {
             string s = sq.substr(i, j - i + 1);
-            if (check(sq, num, j + 1, currsum + stoi(s)))
-                return mp[i][currsum] = true;
+            if (check(sq, num, j + 1, currsum + stoi(s), t))
+                return t[i][currsum] = true;
         }
-        return mp[i][currsum] = false;
+        return t[i][currsum] = false;
     }
     int punishmentNumber(int n) {
         int res = 0;
 
         for (int i = 1; i <= n; i++) {
             int sq = i * i;
-            mp.clear();
+
             string ss = to_string(sq);
-            if (check(ss, i, 0, 0)) {
+            vector<vector<int>> t(ss.length(), vector<int>(i + 1, -1));
+            if (check(ss, i, 0, 0, t)) {
                 res += sq;
             }
         }
