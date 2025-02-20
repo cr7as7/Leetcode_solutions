@@ -15,11 +15,20 @@ public:
         }
         return;
     }
-    string findDifferentBinaryString(vector<string>& nums) {
-        unordered_set<string> s(nums.begin(), nums.end());
-        int n = nums[0].size();
-        string curr = "";
-        solve(n, curr, s);
+    // string findDifferentBinaryString(vector<string>& nums) {
+    //     unordered_set<string> s(nums.begin(), nums.end());
+    //     int n = nums[0].size();
+    //     string curr = "";
+    //     solve(n, curr, s);
+    //     return ans;
+    // }
+     string findDifferentBinaryString(vector<string>& nums) {
+        string ans;
+        for (int i = 0; i < nums.size(); i++) {
+            char curr = nums[i][i];
+            ans += curr == '0' ? '1' : '0';
+        }
+        
         return ans;
     }
 };
