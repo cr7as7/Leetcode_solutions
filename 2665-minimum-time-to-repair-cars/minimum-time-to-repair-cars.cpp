@@ -14,7 +14,7 @@ public:
         int maxi = *max_element(begin(ranks), end(ranks));
         ll l = 1;
         ll r = 1LL * maxi * cars * cars;
-        ll ans = r;
+        ll ans = -1;
         while (l <= r) {
             ll mid = l + (r - l) / 2;
             if (isPossible(ranks, mid, cars)) {
