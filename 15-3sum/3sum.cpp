@@ -25,7 +25,6 @@ public:
                     back--;
 
                 }
-                
             }
             while(i<n-1&&nums[i]==nums[i+1])
                 i++;
