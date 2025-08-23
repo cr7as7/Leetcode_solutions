@@ -1,67 +1,34 @@
-
 class LRUCache {
 public:
-    class Node {
-    public:
-        int key;
-        int val;
-        Node* next;
-        Node* prev;
-        Node(int _key, int _val) {
-            key = _key;
-            val = _val;
-        }
-    };
-    int cap;
-    Node* head = new Node(-1, -1);
-    Node* tail = new Node(-1, -1);
-    unordered_map<int, Node*> mpp;
-    LRUCache(int capacity) {
-        cap = capacity;
-        head->next = tail;
-        tail->prev = head;
+    int n;
+    list<int> dll;
+    unordered_map<int, pair<list<int>::iterator, int>> mp;
+    LRUCache(int capacity) { n = capacity; }
+    void makeMostRecentlyUsed(int key) {
+        dll.erase(mp[key].first);
+        dll.push_front(key);
+        mp[key].first = dll.begin();
     }
-
-    void insertFront(Node* node) {
-        Node* temp = head->next;
-        head->next = node;
-        temp->prev = node;
-        node->next = temp;
-        node->prev = head;
-    }
-    void delRear(Node* node) {
-        Node* front = node->next;
-        Node* previous = node->prev;
-        previous->next = front;
-        front->prev = previous;
-    }
-
     int get(int key) {
-        if (mpp.find(key) != mpp.end()) {
-            Node* node = mpp[key];
-            delRear(node);
-            insertFront(node);
-            return node->val;
-        }
-        return -1;
+        if (mp.find(key) == mp.end())
+            return -1;
+        makeMostRecentlyUsed(key);
+        return mp[key].second;
     }
 
     void put(int key, int value) {
-        if (mpp.find(key) != mpp.end()) {
-            Node* node = mpp[key];
-            node->val = value;
-            delRear(node);
-            insertFront(node);
+        if (mp.find(key) != mp.end()) {
+            mp[key].second = value;
+            makeMostRecentlyUsed(key);
         } else {
-            if (mpp.size() == cap) {
-                Node* lru = tail->prev;
-                delRear(lru);
-                mpp.erase(lru->key);
-                delete lru;
-            }
-            Node* node = new Node(key, value);
-            insertFront(node);
-            mpp[key] = node;
+            dll.push_front(key);
+            mp[key] = {dll.begin(), value};
+            n--;
+        }
+        if (n < 0) {
+            mp.erase(dll.back());
+            dll.pop_back();
+            n++;
         }
     }
 };
