@@ -1,18 +1,22 @@
 class Solution {
 public:
     vector<int> findClosestElements(vector<int>& arr, int k, int x) {
-        priority_queue<pair<int,int>> pq;
-        for (auto i : arr) {
-            int dist = abs(i-x);
-            pq.push({dist,i});
-            if(pq.size()>k) pq.pop();
+        int n = arr.size();
+        int left = 0, right = n - k; // L in [0, n-k]
+
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+
+            // Compare distances by midpoint trick:
+            // if (x - arr[mid] > arr[mid + k] - x)  <=>  2*x > arr[mid] + arr[mid+k]
+            if (2LL * x > 1LL * arr[mid] + 1LL * arr[mid + k]) {
+                left = mid + 1;   // shift window right
+            } else {
+                right = mid;      // keep or shift left
+            }
         }
-        vector<int> res;
-        while (!pq.empty()) {
-            res.push_back(pq.top().second);
-            pq.pop();
-        }
-        sort(res.begin(), res.end());
-        return res;
+
+        // Window [left, left + k)
+        return vector<int>(arr.begin() + left, arr.begin() + left + k);
     }
 };
