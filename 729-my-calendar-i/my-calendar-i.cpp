@@ -1,20 +1,27 @@
 class MyCalendar {
 public:
     set<pair<int, int>> st;
-    MyCalendar() {
-        
-    }
-    
+    MyCalendar() {}
+
     bool book(int start, int end) {
-        auto it = st.upper_bound({start, end});
+        // Find the first event that starts after or st the same time of {start,
+        // end}
+        auto it = st.lower_bound({start, end}); // Log(N)
 
-        if(it != st.end() && end > it->second) {
-
+        // Check if the current event overlaps with the next event
+        if (it != st.end() && it->first < end) {
             return false;
-            
         }
-        
-        st.insert({end, start});
+
+        // Check if the current event overlaps with the previous event
+        if (it != st.begin()) {
+            auto prevIt = prev(it);
+            if (start < prevIt->second) {
+                return false;
+            }
+        }
+
+        st.insert({start, end});
         return true;
     }
 };
