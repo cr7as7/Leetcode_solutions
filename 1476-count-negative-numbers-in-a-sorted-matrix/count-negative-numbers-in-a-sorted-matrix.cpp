@@ -4,21 +4,14 @@ public:
         int n = grid.size();
         int m = grid[0].size();
         int c = 0;
-        for(int i=0;i<n;i++){
-            int l =0,r=m-1,idx=-1;
-            while(l<=r){
-                int mid = l+(r-l)/2;
-                if(grid[i][mid]<0)
-                {
-                        idx = mid;
-                        r=mid-1;
-                }
-                else if(grid[i][mid]>=0)
-                    l=mid+1;
-                
+        int i=0,j=m-1;
+        while(i<n && j>=0){
+            if(grid[i][j]<0){
+                c+=n-i;
+                j--;
             }
-            if(idx != -1)
-                c+=m-idx;
+            else
+            i++;
         }
         return c;
     }
